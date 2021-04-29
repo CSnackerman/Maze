@@ -5,19 +5,42 @@ from os import system
 width = 25
 height = 15
 
-# primary getcharacter array comprised of cells
-maze = []
+# a maze is a grid of cells (list of lists/2d array)
+maze = [
+	[], [], [], [], [],
+	[], [], [], [], [],
+	[], [], [], [], [],
+	[], [], [], [], [],
+	[], [], [], [], []
+]
+
 
 # a cell has a position, status, and character
-cell0 = [0, 0, False, "█"]
+position = [0, 0]
+status = False
+character = "█"
+
+# sample cell
+cell0 = [ position, status, character ]
+
 
 # holds the current position of the tunneler
 tunneler = [1, 1]
 
-# a stack of historical movements the tunneler makes
-tunneler_history = []
+#															--- stack ---
+# a stack of historical movements the tunneler makes 	[  most_recent_position]
+tunneler_history = []	#								[ 			   position]
+#														[			   position]
+#														[			   position]
+#														[ least_recent_position]
 
-# directions
+
+
+# phases
+is_creating = True
+
+
+# directions + converter function
 UP 		= 0
 DOWN 	= 1
 LEFT	= 2
@@ -29,17 +52,33 @@ def numtodirection(num):
 	if num == LEFT	:  return "LEFT"
 	if num == RIGHT	:  return "RIGHT"
 
+	return "error direction"
+
+# colors
+GREEN	 = 	"\u001b[32m"
+BLUE	 =	"\u001b[34m"
+CYAN	 =	"\u001b[0;36m"
+PURPLE 	 =	"\u001b[222;35m"
+RED	 	 =	"\u001b[31m"
+WHITE 	 =	"\u001b[0m"
+
+
+
 # configuration
 SHOW_DEMO = False
 WALL  = "█"
 EMPTY = " "
 
+cursor_color 	= 	BLUE
+entrance_color  = 	RED
+exit_color 		=	GREEN
+
 
 # retrieve cell from maze
 def getcell (pos):
-	posrow = pos [0]
-	poscol = pos [1]
-	return maze [posrow] [poscol]
+	row = pos [0]
+	col = pos [1]
+	return maze [row] [col]
 
 
 # cell attribute accessor functions
@@ -49,25 +88,39 @@ def getrow (cell):
 def getcol (cell):
 	return cell [1]
 
-def getvisited(cell):
+
+def getvisited (cell):
 	return cell [2]
 
-def setvisited(cell, status):
+def setvisited (cell, status):
 	cell [2] = status
 
-def getcharacter(cell):
+
+def getcharacter (cell):
 	return cell [3]
 
-def setcharacter(cell, c):
+def setcharacter (cell, c):
 	cell [3] = c
 
 
 
 def outofbounds(row, col):
-	# bounds are inset one row and column
-	if row < 1  or  row >= height - 1 : return True
-	if col < 1  or  col >=  width - 1 : return True
-	return False
+
+	# the bounds are different 
+	# depending on the completion 
+	# phase of the maze
+	global is_creating
+
+	if is_creating == True:
+		# bounds are inset two row and column
+		if row < 1  or  row >= height - 1 : return True
+		if col < 1  or  col >=  width - 1 : return True
+	
+	else:
+		# bounds are inset one row and column
+		if row < 1  or  row >= height - 1 : return True
+		if col < 1  or  col >=  width - 1 : return True
+		
 
 def removewall(cell):
 	setvisited (cell, True)
@@ -77,6 +130,18 @@ def removewall(cell):
 
 # maze creation function
 def create_maze():
+	
+	# global maze completion phase variable
+	global is_creating
+	is_creating = True
+
+	# reset outer maze variable
+	global maze
+	maze = []
+
+	# set the phase
+	is_creating = True
+	is_complete = False
 
 	# initialize all maze cells
 	for row in range(height):
@@ -95,14 +160,20 @@ def create_maze():
 	# create the entrance and exit
 	createexit()
 	createexit()
+
+	# set completion phase
+	is_creating = False
 	
 
-# implementation of depth first search algorithm
+# an implementation of iterative depth-first-search algorithm
 def tunnelthemaze():
 
 	# declare globals
 	global tunneler_history
 	global tunneler
+
+	# reset history
+	tunneler_history = []
 
 	# record the tunnelers starting position
 	tunneler_history.append(tunneler)
@@ -277,6 +348,8 @@ def getunvisitedsurrounded(cellpos):
 	# if no unvisited cells are found after the loop...
 	return [0, direction]
 
+
+
 def createexit():
 
 	# roll edge
@@ -284,7 +357,8 @@ def createexit():
 
 	# Top
 	for col in range(1, width - 2):
-
+		
+		# skip
 		if edge != 0:
 			break
 
@@ -302,6 +376,7 @@ def createexit():
 	# Bottom
 	for col in range(1, width-2):
 
+		# skip
 		if edge != 1:
 			break
 
@@ -319,6 +394,7 @@ def createexit():
 	# Left
 	for row in range(1, height-2):
 
+		# skip
 		if edge != 2:
 			break
 
@@ -336,6 +412,7 @@ def createexit():
 	# Right
 	for row in range(1, height-2):
 
+		# skip
 		if edge != 3:
 			break
 
@@ -352,11 +429,11 @@ def createexit():
 
 
 
-
 def printtunnelerhistory():
 
 	for item in tunneler_history:
 		print (item)
+
 
 
 # maze print to console function
@@ -375,6 +452,7 @@ def print_maze():
 		print()
 
 
+
 # print cells (1 per line) function
 def printallcells():
 
@@ -386,5 +464,5 @@ def printallcells():
 	for i in range(total_cells):
 		r = i // width
 		c = i % width
-		print ( "cell #", "{:02}".format(i), " = ",  getcell (r, c), sep="" )
+		print ( "cell #", "{:02}".format(i), " = ",  getcell ( [r, c] ), sep="" )
 
