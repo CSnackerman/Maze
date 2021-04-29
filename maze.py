@@ -30,7 +30,7 @@ def numtodirection(num):
 	if num == RIGHT	:  return "RIGHT"
 
 # configuration
-SHOW_DEMO = True
+SHOW_DEMO = False
 WALL  = "█"
 EMPTY = " "
 
@@ -119,16 +119,13 @@ def tunnelthemaze():
 		if SHOW_DEMO:
 			time.sleep(0.25)		# DEBUG-SLEEP
 
-			# clear the console
-			system("clear")	 	# DEBUG
-
 			# change the color of the cell the tunneler is in
 			t = getcell (tunneler)	 	# DEBUG
 			setcharacter(t, "\u001b[31m" + WALL + "\u001b[0m")	# DEBUG
 
 			print_maze() 	# DEBUG
 
-			print ("\n             r   c")
+			print ("\n             r   c")								# DEBUG
 			print ("tunneler = [", tunneler[0], ",", tunneler[1], "]") 	# DEBUG
 
 			t [3] = "\u001b[0m " 	# DEBUG
@@ -174,7 +171,6 @@ def tunnelthemaze():
 		if len (tunneler_history) < 1:
 			stack_empty = True
 
-	system ("clear")
 	return
 
 
@@ -365,6 +361,9 @@ def printtunnelerhistory():
 
 # maze print to console function
 def print_maze():
+
+	# clear the console
+	system ("clear")
 
 	# loop through each getcell in the maze
 	for row in range(height):
