@@ -64,14 +64,18 @@ WHITE 	 =	"\u001b[0m"
 
 
 
-# configuration
+# ----- configuration -----
+
 SHOW_DEMO = False
+SHOW_COORDINATES = True
+
 WALL  = "█"
 EMPTY = " "
 
-cursor_color 	= 	BLUE
 entrance_color  = 	RED
 exit_color 		=	GREEN
+
+#--------------------------
 
 
 # retrieve cell from maze
@@ -110,18 +114,26 @@ def outofbounds(row, col):
 	# depending on the completion 
 	# phase of the maze
 	global is_creating
+	global SHOW_COORDINATES
 
-	if is_creating == True:
-		# bounds are inset two row and column
-		if row < 1  or  row >= height - 1 : return True
-		if col < 1  or  col >=  width - 1 : return True
-	
-	else:
-		# bounds are inset one row and column
-		if row < 1  or  row >= height - 1 : return True
-		if col < 1  or  col >=  width - 1 : return True
-		
+	# set the inset
+	inset = 0
 
+	if (is_creating == True):
+
+		inset += 1
+
+		# if (SHOW_COORDINATES == True): #TODO
+		# 	inset += 1
+			
+	# run the check
+	if ( row < inset )  or  ( row >= (height - inset) ) : return True
+	if ( col < inset )  or  ( col >=  (width - inset) ) : return True
+
+	return False
+
+
+# updates the visited status and character of a maze cell
 def removewall(cell):
 	setvisited (cell, True)
 	setcharacter (cell, EMPTY)
@@ -148,6 +160,7 @@ def create_maze():
 
 		row_of_cells = []
 		for column in range (width):
+
 			c = [row, column, False, WALL]
 			row_of_cells.append (c)
 	
@@ -188,7 +201,7 @@ def tunnelthemaze():
 	while stack_empty == False:
 
 		if SHOW_DEMO:
-			time.sleep(0.25)		# DEBUG-SLEEP
+			time.sleep(0.1)		# DEBUG-SLEEP
 
 			# change the color of the cell the tunneler is in
 			t = getcell (tunneler)	 	# DEBUG
@@ -466,3 +479,6 @@ def printallcells():
 		c = i % width
 		print ( "cell #", "{:02}".format(i), " = ",  getcell ( [r, c] ), sep="" )
 
+
+
+# TODO add coordinate display system upon maze creation
