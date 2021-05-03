@@ -10,8 +10,8 @@ from maze import RIGHT as RIGHT
 ''' CONFIG '''
 
 # maze dimensions
-maze.width = 25
-maze.height = 15
+maze.width = 31
+maze.height = 17
 
 
 # start position of the cursor:
@@ -23,7 +23,7 @@ cursor = [  1,   1  ]
 
 # set the color of the cursor
 cursor_character =  maze.WALL
-cursor_color 	   = 	maze.RED
+cursor_color 	 = 	maze.RED
 
 
 

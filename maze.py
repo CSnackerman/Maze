@@ -61,7 +61,7 @@ WHITE 	 =	"\u001b[0m"
 SHOW_DEMO = False
 SHOW_COORDINATES = True
 
-WALL  = "▉"
+WALL  = "▉" 				# "█" 
 EMPTY = " "
 
 entrance_color  = 	RED
@@ -122,7 +122,6 @@ def outofbounds(row, col):
 	# depending on the completion 
 	# phase of the maze
 	global is_creating
-	global SHOW_COORDINATES
 
 	# set the inset
 	inset = 0
@@ -131,8 +130,6 @@ def outofbounds(row, col):
 
 		inset += 1
 
-		# if (SHOW_COORDINATES == True): #TODO
-		# 	inset += 1
 			
 	# run the check
 	if ( row < inset )  or  ( row >= (height - inset) ) : return True
@@ -163,7 +160,6 @@ def create_maze():
 
 	# set the phase
 	is_creating = True
-	is_complete = False
 
 	# initialize all maze cells
 	for row in range(height):
@@ -214,7 +210,7 @@ def tunnelthemaze():
 	while stack_empty == False:
 
 		if SHOW_DEMO:
-			time.sleep(0.1)		# DEBUG-SLEEP
+			time.sleep(0.3)		# DEBUG-SLEEP
 
 			# change the color of the cell the tunneler is in
 			t = getcell (tunneler)	 	# DEBUG
@@ -469,17 +465,49 @@ def printtunnelerhistory():
 # maze print to console function
 def print_maze():
 
+	# global config variable
+	global SHOW_COORDINATES
+
+    # output variable
+	maze_string = ""
+
 	# clear the console
 	system ("clear")
 
+	if SHOW_COORDINATES:
+
+		maze_string += "  "
+
+		# 10s digit row
+		for col in range (width):
+
+			maze_string += str (col // 10)
+
+		maze_string += "\n  "
+
+		# 1s digit row
+		for col in range (width):
+
+				maze_string += str (col % 10)
+
+		# next line
+		maze_string += "\n"
+
 	# loop through each getcell in the maze
 	for row in range(height):
-		for col in range (width):
-			c = getcell( [row, col] )
-			
-			print ( getcharacter (c), sep="",  end="")
 
-		print()
+		if SHOW_COORDINATES:
+				maze_string +=	"{0:02}".format (row)
+				
+		for col in range (width):
+
+			c = getcell( [row, col] )
+
+			maze_string += getcharacter (c)
+
+		maze_string += "\n"
+	
+	print (maze_string)
 
 
 
