@@ -10,8 +10,8 @@ from maze import RIGHT as RIGHT
 ''' CONFIG '''
 
 # maze dimensions
-maze.width = 151
-maze.height = 35
+maze.width = 25
+maze.height = 15
 
 
 # start position of the cursor:

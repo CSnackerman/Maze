@@ -61,7 +61,7 @@ WHITE 	 =	"\u001b[0m"
 SHOW_DEMO = False
 SHOW_COORDINATES = True
 
-WALL  = "█"
+WALL  = "▉"
 EMPTY = " "
 
 entrance_color  = 	RED
