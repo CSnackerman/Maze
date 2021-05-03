@@ -46,14 +46,6 @@ DOWN 	= 1
 LEFT	= 2
 RIGHT	= 3
 
-def numtodirection(num):
-	if num == UP	:  return "UP"
-	if num == DOWN	:  return "DOWN"
-	if num == LEFT	:  return "LEFT"
-	if num == RIGHT	:  return "RIGHT"
-
-	return "error direction"
-
 # colors
 GREEN	 = 	"\u001b[32m"
 BLUE	 =	"\u001b[34m"
@@ -77,6 +69,16 @@ exit_color 		=	GREEN
 
 #--------------------------
 
+# converters
+
+def numtodirection(num):
+	if num == UP	:  return "UP"
+	if num == DOWN	:  return "DOWN"
+	if num == LEFT	:  return "LEFT"
+	if num == RIGHT	:  return "RIGHT"
+
+	return "error direction"
+
 
 # retrieve cell from maze
 def getcell (pos):
@@ -85,7 +87,9 @@ def getcell (pos):
 	return maze [row] [col]
 
 
-# cell attribute accessor functions
+# 		cell attribute accessor functions:
+
+# position component getters
 def getrow (cell):
 	return cell [0]
 
@@ -93,6 +97,7 @@ def getcol (cell):
 	return cell [1]
 
 
+# cell visited status getter & setter
 def getvisited (cell):
 	return cell [2]
 
@@ -100,6 +105,7 @@ def setvisited (cell, status):
 	cell [2] = status
 
 
+# cell character assigment getter & setter
 def getcharacter (cell):
 	return cell [3]
 
@@ -107,7 +113,9 @@ def setcharacter (cell, c):
 	cell [3] = c
 
 
-
+# boolean function which returns true if
+# the position given via row and column
+# is outside the bounds of the grid
 def outofbounds(row, col):
 
 	# the bounds are different 
@@ -141,6 +149,8 @@ def removewall(cell):
 
 
 # maze creation function
+# stores the completed maze grid within
+# the GLOBAL maze variable
 def create_maze():
 	
 	# global maze completion phase variable
@@ -179,6 +189,9 @@ def create_maze():
 	
 
 # an implementation of iterative depth-first-search algorithm
+# creates the pathways within the maze that you
+# can travel through
+# currently carves tunnels from an inset value of 1
 def tunnelthemaze():
 
 	# declare globals
@@ -362,7 +375,10 @@ def getunvisitedsurrounded(cellpos):
 	return [0, direction]
 
 
-
+# used twice after tunnelthemaze() is called
+# from within create_maze()
+# removes the wall from one cell around the perimeter 
+# of the maze
 def createexit():
 
 	# roll edge
@@ -441,7 +457,8 @@ def createexit():
 			break
 
 
-
+# print the entire contents of the
+# tunneler's history of position
 def printtunnelerhistory():
 
 	for item in tunneler_history:
@@ -466,7 +483,8 @@ def print_maze():
 
 
 
-# print cells (1 per line) function
+# print the status of 
+# all the cells in the maze
 def printallcells():
 
 	# calculate total number of cells in the maze

@@ -11,12 +11,13 @@ from maze import RIGHT as RIGHT
 maze.width = 151
 maze.height = 35
 
+
 # current position of the cursor:
-#
 #
 #          [0]  [1]
 #          row  col
 cursor = [  1,   1  ]
+
 
 # set the color of the cursor
 cursor_character =  maze.WALL
@@ -28,8 +29,6 @@ cursor_color 	   = 	maze.RED
 # to simulate movement
 # in a direction within 
 # the maze grid 
-#
-# --- created by Naseeha
 def move (cursor,direction):
 
   if direction == UP:
@@ -77,7 +76,11 @@ def erase (cursor):
 #   (code that runs the code above) |
 # -----------------------------------
 
+# start by filling the grid with wall data
 maze.create_maze()
+
+
+#     loop pattern:
 
 # move 1
 move (cursor, RIGHT)
@@ -105,5 +108,3 @@ maze.print_maze()
 erase (cursor)
 
 print (" --- move 2 ---")
-
-# maze.printallcells()
