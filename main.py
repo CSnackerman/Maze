@@ -7,12 +7,14 @@ from maze import LEFT as LEFT
 from maze import RIGHT as RIGHT
 
 
+''' CONFIG '''
+
 # maze dimensions
 maze.width = 151
 maze.height = 35
 
 
-# current position of the cursor:
+# start position of the cursor:
 #
 #          [0]  [1]
 #          row  col
@@ -23,6 +25,9 @@ cursor = [  1,   1  ]
 cursor_character =  maze.WALL
 cursor_color 	   = 	maze.RED
 
+
+
+''' FUNCTION DEFINITIONS '''
 
 # changes the row and column 
 # of the cursor 
@@ -46,7 +51,9 @@ def move (cursor,direction):
   return
 
 
-
+# modifies the cell at the same
+# position as the cursor by
+# changing the character
 def draw (cursor):
 
   # get the cell
@@ -58,7 +65,9 @@ def draw (cursor):
   return
 
 
-
+# draw an empty space character
+# at the position of the cursor
+# in the maze
 def erase (cursor):
 
   # get the cell
