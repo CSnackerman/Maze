@@ -58,7 +58,7 @@ WHITE 	 =	"\u001b[0m"
 
 # ----- configuration -----
 
-SHOW_DEMO = True
+SHOW_DEMO = False
 DEMO_SPEED = 0.1
 
 SHOW_COORDINATES = True
@@ -132,14 +132,15 @@ def outofbounds(row, col):
 
 		inset += 1
 
-	# prevent going through walls after maze is finished creating
-	if ( is_creating == False )  and  ( getcharacter ( [row, col] ) == WALL ) :
-		return True
-
 			
 	# run the check
 	if ( row < inset )  or  ( row >= (height - inset) ) : return True
 	if ( col < inset )  or  ( col >=  (width - inset) ) : return True
+
+	cell = getcell( [row, col] )
+	# prevent going through walls after maze is finished creating
+	if ( is_creating == False )  and  ( getcharacter (cell) == WALL ) :
+		return True
 
 	return False
 
