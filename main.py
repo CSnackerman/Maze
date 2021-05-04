@@ -116,4 +116,4 @@ maze.print_maze()
 
 erase (cursor)
 
-print (" --- move 2 ---")
+print ("--- move 2 ---")

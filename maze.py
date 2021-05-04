@@ -15,7 +15,7 @@ maze = [
 ]
 
 
-# a cell has a position, status, and character
+# a cell has a position, visit status, and character
 position = [0, 0]
 status = False
 character = "█"
@@ -58,7 +58,7 @@ WHITE 	 =	"\u001b[0m"
 
 # ----- configuration -----
 
-SHOW_DEMO = False
+SHOW_DEMO = True
 SHOW_COORDINATES = True
 
 WALL  = "▉" 				# "█" 
