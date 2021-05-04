@@ -59,9 +59,11 @@ WHITE 	 =	"\u001b[0m"
 # ----- configuration -----
 
 SHOW_DEMO = True
+DEMO_SPEED = 0.1
+
 SHOW_COORDINATES = True
 
-WALL  = "▉" 				# "█" 
+WALL  = "█"   # ▉ <-- for repl   █ <-- for local
 EMPTY = " "
 
 entrance_color  = 	RED
@@ -129,6 +131,10 @@ def outofbounds(row, col):
 	if (is_creating == True):
 
 		inset += 1
+
+	# prevent going through walls after maze is finished creating
+	if ( is_creating == False )  and  ( getcharacter ( [row, col] ) == WALL ) :
+		return True
 
 			
 	# run the check
@@ -210,7 +216,7 @@ def tunnelthemaze():
 	while stack_empty == False:
 
 		if SHOW_DEMO:
-			time.sleep(0.3)		# DEBUG-SLEEP
+			time.sleep(DEMO_SPEED)		# DEBUG-SLEEP
 
 			# change the color of the cell the tunneler is in
 			t = getcell (tunneler)	 	# DEBUG
